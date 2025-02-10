@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТатГео</title>
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/script.js" defer></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <main class="page">
+            <div class="quiz container">
+                <div class="quiz-head">
+                    <p class="quiz-title">Получите цену <br> за 5 минут</p>
+                    <p class="quiz-description">ответьте на пару вопросов - мы пришлем <br> готовое коммерческое
+                        предложение</p>
+                </div>
+
+                <div class="quiz-items">
+                    <!-- Первый вопрос -->
+                    <div class="quiz-item active" data-question="main">
+                        <div class="quiz-action">
+                            <p class="quiz-question">Какой вид работы вас интересует?</p>
+                            <div class="quiz-choice">
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="geodesy" data-next-question="geodesy">
+                                    <label for="geodesy">Геодезия</label>
+                                </div>
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="ecology" data-next-question="ecology">
+                                    <label for="ecology">Экология</label>
+                                </div>
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="geology" data-next-question="geology">
+                                    <label for="geology">Геология</label>
+                                </div>
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="hydrometeorology"
+                                        data-next-question="ecology">
+                                    <label for="hydrometeorology">Гидрометеорология</label>
+                                </div>
+                            </div>
+                        </div>
+                        <img class="quiz-img" src="assets/images/start.png" alt="">
+                    </div>
+
+                    <!-- Вопросы для геодезии -->
+                    <div class="quiz-item" data-question="geodesy">
+                        <div class="quiz-action">
+                            <p class="quiz-question">Скажите, какой у вас объект?</p>
+                            <div class="quiz-choice">
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="topographic"
+                                        data-next-question="geodesy_details">
+                                    <label for="topographic">Топографическая съемка</label>
+                                </div>
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="construction"
+                                        data-next-question="geodesy_details">
+                                    <label for="construction">Строительная геодезия</label>
+                                </div>
+                                <button class="btn-transparent tell-later">Расскажу попозже</button>
+                            </div>
+                        </div>
+                        <img class="quiz-img" src="assets/images/geodesy.png" alt="">
+                    </div>
+
+                    <div class="quiz-item" data-question="geodesy_details">
+                        <div class="quiz-action">
+                            <p class="quiz-question">Пожалуйста, уточните детали:</p>
+                            <div class="quiz-choice">
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="expertise" data-next-question="end">
+                                    <label for="expertise">Требуется экспертиза</label>
+                                </div>
+                                <input class="quiz-input" type="text" placeholder="Введите местоположение объекта">
+                                <input class="quiz-input" type="text" placeholder="Тип фундамента">
+                                <input class="quiz-input" type="text" placeholder="Площадь участка, гектары">
+                            </div>
+                        </div>
+                        <img class="quiz-img" src="assets/images/geodesy2.png" alt="">
+                    </div>
+
+                    <!-- Вопросы для геологии -->
+                    <div class="quiz-item" data-question="geology">
+                        <div class="quiz-action">
+                            <p class="quiz-question">Скажите, какой у вас объект?</p>
+                            <div class="quiz-choice">
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="private_house"
+                                        data-next-question="geology_details">
+                                    <label for="private_house">Частный дом</label>
+                                </div>
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="commercial_facility"
+                                        data-next-question="geology_details">
+                                    <label for="commercial_facility">Коммерческий объект</label>
+                                </div>
+                                <button class="btn-transparent tell-later">Расскажу попозже</button>
+                            </div>
+                        </div>
+                        <img class="quiz-img" src="assets/images/geology.png" alt="">
+                    </div>
+
+                    <div class="quiz-item" data-question="geology_details">
+                        <div class="quiz-action">
+                            <p class="quiz-question">Пожалуйста, уточните детали:</p>
+                            <div class="quiz-choice">
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="communications" data-next-question="end">
+                                    <label for="communications">Есть коммуникации</label>
+                                </div>
+                                <input class="quiz-input" type="text" placeholder="Введите местоположение объекта">
+                                <input class="quiz-input" type="text" placeholder="Кадастровый номер участка">
+                                <input class="quiz-input" type="text" placeholder="Площадь участка, гектары">
+                            </div>
+                        </div>
+                        <img class="quiz-img" src="assets/images/geology2.png" alt="">
+                    </div>
+
+                    <!-- Вопросы для экологии и гидрометеорологии -->
+                    <div class="quiz-item" data-question="ecology">
+                        <div class="quiz-action">
+                            <p class="quiz-question">Скажите, какой у вас объект?</p>
+                            <div class="quiz-choice">
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="private_house"
+                                        data-next-question="ecology_details">
+                                    <label for="private_house">Частный дом</label>
+                                </div>
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="commercial_facility"
+                                        data-next-question="ecology_details">
+                                    <label for="commercial_facility">Коммерческий объект</label>
+                                </div>
+                                <button class="btn-transparent tell-later">Расскажу попозже</button>
+                            </div>
+                        </div>
+                        <img class="quiz-img" src="assets/images/ecology.png" alt="">
+                    </div>
+
+                    <div class="quiz-item" data-question="ecology_details">
+                        <div class="quiz-action">
+                            <p class="quiz-question">Пожалуйста, уточните детали:</p>
+                            <div class="quiz-choice">
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="watersheds_monuments"
+                                        data-next-question="end">
+                                    <label for="watersheds_monuments">Есть водоразделы, памятники</label>
+                                </div>
+                                <div class="choice-radio">
+                                    <input type="radio" name="option" value="ecology_expertise"
+                                        data-next-question="end">
+                                    <label for="ecology_expertise">Требуется экспертиза</label>
+                                </div>
+                                <input class="quiz-input" type="text" placeholder="Введите местоположение объекта">
+                                <button class="btn-transparent tell-later">Расскажу попозже</button>
+                            </div>
+                        </div>
+                        <img class="quiz-img" src="assets/images/ecology2.png" alt="">
+                    </div>
+
+                    <!-- Финальный слайд -->
+                    <div class="quiz-item" data-question="end">
+                        <div class="quiz-action">
+                            <p class="quiz-question last">Оставьте свои данные и мы пришлем готовое коммерческое
+                                предложение</p>
+                            <div class="quiz-choice">
+                                <input class="quiz-input" type="text" placeholder="Как к Вам обращаться?">
+                                <input class="quiz-input" data-format="+0 (000) 000-00-00" type="tel" placeholder="+7 (_ _ _)  _ _ _ - _ _ - _ _">                                <input class="quiz-input" type="email" placeholder="example@mail.ru">
+                                <button class="btn-transparent">Отправить заявку</button>
+                            </div>
+                        </div>
+                        <img class="quiz-img" src="assets/images/end.png" alt="">
+                    </div>
+                </div>
+
+                <button class="btn-white quiz-next-btn" onclick="nextSlide()">
+                    <span class="text">Далее</span>
+                    <span class="icon">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M25.0013 3.33268H15.0013C6.66797 3.33268 3.33464 6.66602 3.33464 14.9993V24.9993C3.33464 33.3327 6.66797 36.666 15.0013 36.666H25.0013C33.3346 36.666 36.668 33.3327 36.668 24.9993V14.9993C36.668 6.66602 33.3346 3.33268 25.0013 3.33268Z"
+                                stroke="#292D32" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M17.899 14.1161L23.7656 19.9995L17.899 25.8828" stroke="#292D32" stroke-width="3"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

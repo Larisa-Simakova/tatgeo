@@ -1,0 +1,339 @@
+@charset "UTF-8";
+
+:root {
+    --deep-green: #174812;
+    --light-green: #348E2B;
+    --white: #fff;
+    --black: #000;
+    --gray: #4E4E4E;
+    --gray-light: #808080;
+}
+
+/*Обнуление*/
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+:focus,
+:active {
+    outline: none;
+}
+
+a {
+    color: inherit;
+}
+
+a:focus,
+a:active {
+    outline: none;
+}
+
+nav,
+footer,
+header,
+aside {
+    display: block;
+}
+
+html,
+body {
+    height: 100%;
+    min-width: 320px;
+}
+
+body {
+    line-height: 1;
+    font-size: 10px;
+    font-family: "Onest", sans-serif;
+    color: var(--primary);
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+input,
+button,
+textarea {
+    font-family: "Onest", sans-serif;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+button {
+    cursor: pointer;
+    background-color: transparent;
+}
+
+button::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+a,
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
+/*--------------------*/
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    scrollbar-gutter: stable;
+    background: var(--light);
+}
+
+body.lock {
+    overflow: hidden;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+
+
+.wrapper {
+    min-height: 100%;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.wrapper>main {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.container {
+    max-width: 1355px;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* quiz */
+.quiz {
+    padding: 10em 0 7.6em 0;
+    position: relative;
+}
+
+.quiz-head {
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: space-between;
+    padding-bottom: 4em;
+}
+
+.quiz-title {
+    color: var(--deep-green);
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 6.4em;
+    line-height: 85%;
+    letter-spacing: -0.03em;
+}
+
+.quiz-description {
+    font-family: 'Montserrat';
+    font-weight: 400;
+    font-size: 2.4em;
+    text-align: right;
+    letter-spacing: -3%;
+}
+
+.quiz-question {
+    color: var(--white);
+    font-size: 3.4em;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    width: 10em;
+}
+
+.quiz-question.last {
+    width: 21em;
+}
+
+.quiz-items {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 72em;
+}
+
+.quiz-item {
+    background: url("../images/background.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    padding: 8.9em 0 3.5em 5em;
+    position: relative;
+    height: 72em;
+    border-radius: 4em;
+    display: none;
+}
+
+.quiz-item.active {
+    display: block;
+}
+
+.quiz-choice {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    /* padding: 3em 0 6.4em 0; */
+    padding: 3em 0 0 0;
+}
+
+.choice-radio {
+    background: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    width: 61.4em;
+    padding: 1.5em 0 1.5em 3em;
+    border-radius: 4em;
+}
+
+.choice-radio label {
+    font-size: 2.4em;
+    font-family: 'Montserrat';
+    font-weight: 500;
+}
+
+input[type="radio"] {
+    appearance: none;
+    width: 33px;
+    height: 33px;
+    border: 3px solid var(--gray);
+    border-radius: .8em;
+    outline: none;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+input[type="radio"]:checked {
+    border-color: var(--light-green);
+}
+
+input[type="radio"]:checked::before {
+    content: url("../images/check.svg");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.btn-white {
+    font-size: 2.6em;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    line-height: 120%;
+    display: flex;
+    align-items: center;
+    gap: 1.15em;
+    padding: .77em 1.54em;
+    background: var(--white);
+    border-radius: 2.27em;
+}
+
+.btn-transparent {
+    font-family: "Montserrat";
+    font-weight: 500;
+    font-size: 2.4em;
+    padding: 0.83em 1.25em;
+    border-radius: 1.6em;
+    width: fit-content;
+    color: var(--white);
+    border: 1px solid var(--white);
+}
+
+.btn-white .icon {
+    height: fit-content;
+}
+
+.quiz-img {
+    position: absolute;
+    bottom: 0;
+    right: 5em;
+}
+
+input.quiz-input {
+    font-size: 2.4em;
+    width: 25.54em;
+    border-radius: 4em;
+    color: var(--black);
+    font-family: "Montserrat";
+    font-weight: 500;
+    padding: .83em 0 .83em 1.25em;
+}
+
+input.quiz-input::placeholder {
+    color: var(--gray-light);
+}
+
+.quiz-next-btn {
+    position: absolute;
+    z-index: 99;
+    bottom: 4em;
+    left: 2em;
+}
+
+.quiz-next-btn.disactive {
+    display: none;
+}
+
+.btn-white.quiz-next-btn:disabled {
+    opacity: 1;
+    color: var(--black);
+    background: var(--white);
+}
+
+.error-message {
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 1.3em;
+    color: red;
+    margin-top: 1em;
+}
