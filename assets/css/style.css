@@ -222,7 +222,6 @@ body.lock {
     display: flex;
     flex-direction: column;
     gap: 2em;
-    /* padding: 3em 0 6.4em 0; */
     padding: 3em 0 0 0;
 }
 
@@ -234,15 +233,18 @@ body.lock {
     width: 61.4em;
     padding: 1.5em 0 1.5em 3em;
     border-radius: 4em;
+    cursor: pointer;
 }
 
 .choice-radio label {
     font-size: 2.4em;
     font-family: 'Montserrat';
     font-weight: 500;
+    flex-grow: 1;
+    cursor: pointer;
 }
 
-input[type="radio"] {
+input[type="checkbox"] {
     appearance: none;
     width: 33px;
     height: 33px;
@@ -253,11 +255,11 @@ input[type="radio"] {
     vertical-align: middle;
 }
 
-input[type="radio"]:checked {
+input[type="checkbox"]:checked {
     border-color: var(--light-green);
 }
 
-input[type="radio"]:checked::before {
+input[type="checkbox"]:checked::before {
     content: url("../images/check.svg");
     display: flex;
     align-items: center;
@@ -321,6 +323,19 @@ input.quiz-input::placeholder {
 }
 
 .quiz-next-btn.disactive {
+    border: 2px solid var(--white);
+    background: transparent;
+}
+
+.quiz-next-btn.disactive .text {
+    color: var(--white);
+}
+
+.quiz-next-btn.disactive .icon svg path {
+    stroke: var(--white);
+}
+
+.quiz-next-btn.no-show {
     display: none;
 }
 
@@ -330,10 +345,16 @@ input.quiz-input::placeholder {
     background: var(--white);
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+}
+
 .error-message {
     font-family: 'Montserrat';
     font-weight: 500;
-    font-size: 1.3em;
+    font-size: 1.5em;
     color: red;
     margin-top: 1em;
 }

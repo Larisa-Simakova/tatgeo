@@ -2,10 +2,83 @@ let currentSlide = document.querySelector('.quiz-item.active');
 let nextButton = document.querySelector('.quiz-next-btn');
 let userAnswers = {};
 
+// Функция для преобразования массива ответов в строку с нумерованным списком
+function formatAnswers(answers) {
+    if (Array.isArray(answers)) {
+        const uniqueAnswers = [...new Set(answers)];
+        if (uniqueAnswers.length === 1) {
+            return uniqueAnswers[0];
+        }
+        return uniqueAnswers.map((answer, index) => `${index + 1}) ${answer}`).join('\n');
+    }
+    return answers;
+}
+
 // Функция для записи ответа
 function recordAnswer(question, answer) {
-    userAnswers[question] = answer;
+    // Очищаем массив ответов для текущего вопроса
+    userAnswers[question] = [];
+
+    // Если ответ — массив, добавляем его элементы
+    if (Array.isArray(answer)) {
+        userAnswers[question].push(...answer);
+    } else {
+        // Если ответ — строка, добавляем её
+        userAnswers[question].push(answer);
+    }
+
+    // Убираем дубликаты в массиве ответов
+    userAnswers[question] = [...new Set(userAnswers[question])];
 }
+
+// Функция для обновления состояния кнопки "Далее"
+function updateNextButtonState() {
+    let selectedOptions = Array.from(currentSlide.querySelectorAll('input[type="checkbox"]:checked'));
+    let inputs = currentSlide.querySelectorAll('.quiz-input');
+    let hasInputValues = Array.from(inputs).some(input => input.value.trim() !== '');
+
+    if (selectedOptions.length > 0 || hasInputValues) {
+        nextButton.classList.remove('disactive');
+    } else {
+        nextButton.classList.add('disactive');
+    }
+}
+
+// Навешиваем обработчики на чекбоксы и поля ввода
+document.querySelectorAll('.quiz-item').forEach(slide => {
+    if (slide.getAttribute('data-question') !== 'ecology_details') {
+        slide.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    slide.querySelectorAll('input[type="checkbox"]').forEach(otherCheckbox => {
+                        if (otherCheckbox !== this) {
+                            otherCheckbox.checked = false;
+                        }
+                    });
+                }
+                updateNextButtonState();
+            });
+        });
+    }
+});
+
+
+// Навешиваем обработчики на чекбоксы и поля ввода
+document.querySelectorAll('.quiz-item').forEach(slide => {
+    // Обработчик для чекбоксов
+    slide.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            updateNextButtonState();
+        });
+    });
+
+    // Обработчик для полей ввода
+    slide.querySelectorAll('.quiz-input').forEach(input => {
+        input.addEventListener('input', () => {
+            updateNextButtonState();
+        });
+    });
+});
 
 // Функция для показа слайда
 function showSlide(slide) {
@@ -16,23 +89,19 @@ function showSlide(slide) {
 
     // Скрываем кнопку "Далее" на последнем слайде
     if (slide.getAttribute('data-question') === 'end') {
-        nextButton.classList.add('disactive');
+        nextButton.classList.add('no-show');
+    } else {
+        nextButton.classList.remove('no-show');
     }
 
-    // Блокируем кнопку "Далее", если на слайде есть кнопка "Расскажу попозже"
-    let skipButton = slide.querySelector('.tell-later');
-    if (skipButton) {
-        nextButton.disabled = true; // Блокируем кнопку "Далее"
-    } else {
-        nextButton.disabled = false; // Разблокируем кнопку "Далее"
-    }
+    // Обновляем состояние кнопки "Далее" при показе слайда
+    updateNextButtonState();
 }
 
 // Функция для отображения сообщения об ошибке
 function showError(message) {
     let errorMessage = document.createElement('div');
     errorMessage.className = 'error-message';
-    errorMessage.style.color = 'red';
     errorMessage.textContent = message;
 
     let quizChoice = currentSlide.querySelector('.quiz-choice');
@@ -46,23 +115,45 @@ function showError(message) {
 // Функция для форматирования номера телефона
 function formatPhoneNumber(input) {
     let value = input.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
-    let format = "+0 (000) 000-00-00"; // Формат для телефона
-    let formattedValue = '';
-    let index = 0;
 
-    for (let char of format) {
-        if (char === '0' && value[index]) {
-            formattedValue += value[index];
-            index++;
-        } else if (value[index]) {
-            formattedValue += char;
-        } else {
-            break;
-        }
+    // Если номер начинается с 7 или 8, заменяем на +7
+    if (value.startsWith('7') || value.startsWith('8')) {
+        value = '+7' + value.slice(1);
+    } else if (!value.startsWith('+7')) {
+        value = '+7' + value; // Добавляем +7, если его нет
+    }
+
+    // Форматируем оставшуюся часть номера
+    let formattedValue = '+7';
+    let digits = value.slice(2); // Убираем +7 из начала
+
+    if (digits.length > 0) {
+        formattedValue += ' (' + digits.slice(0, 3);
+    }
+    if (digits.length > 3) {
+        formattedValue += ') ' + digits.slice(3, 6);
+    }
+    if (digits.length > 6) {
+        formattedValue += '-' + digits.slice(6, 8);
+    }
+    if (digits.length > 8) {
+        formattedValue += '-' + digits.slice(8, 10);
     }
 
     input.value = formattedValue;
 }
+
+// Добавляем форматирование номера телефона при вводе
+document.querySelectorAll('input[type="tel"]').forEach(input => {
+    input.addEventListener('input', () => {
+        formatPhoneNumber(input);
+    });
+
+    // Устанавливаем начальное значение +7, если поле пустое
+    if (!input.value.trim()) {
+        input.value = '+7';
+    }
+});
 
 // Функция для проверки валидации на последнем слайде
 function validateFinalSlide() {
@@ -97,9 +188,44 @@ function validateFinalSlide() {
     return true; // Валидация прошла успешно
 }
 
+// Функция для сбора ответов с текущего слайда
+function collectAnswers() {
+    let question = currentSlide.querySelector('.quiz-question').textContent;
+    let selectedOptions = Array.from(currentSlide.querySelectorAll('input[type="checkbox"]:checked'));
+    let inputs = currentSlide.querySelectorAll('.quiz-input');
+    let answers = [];
+
+    // Если на слайде можно выбрать только один чекбокс (например, первый вопрос)
+    if (currentSlide.getAttribute('data-question') === 'main') {
+        // Выбираем только первый выбранный чекбокс
+        if (selectedOptions.length > 0) {
+            answers.push(selectedOptions[0].nextElementSibling.textContent);
+        }
+    } else {
+        // Для остальных слайдов собираем все выбранные чекбоксы
+        selectedOptions.forEach(option => {
+            answers.push(option.nextElementSibling.textContent);
+        });
+    }
+
+    // Собираем заполненные поля
+    inputs.forEach(input => {
+        if (input.value.trim() !== '') {
+            answers.push(`${input.placeholder} - ${input.value}`);
+        }
+    });
+
+    // Если есть ответы, записываем их
+    if (answers.length > 0) {
+        recordAnswer(question, answers);
+    }
+
+    return answers;
+}
+
 // Функция для перехода к следующему слайду
 function nextSlide() {
-    let selectedOption = currentSlide.querySelector('input[name="option"]:checked');
+    let selectedOptions = Array.from(currentSlide.querySelectorAll('input[type="checkbox"]:checked'));
     let skipButton = currentSlide.querySelector('.tell-later');
     let inputs = currentSlide.querySelectorAll('.quiz-input');
     let hasInputValues = Array.from(inputs).some(input => input.value.trim() !== '');
@@ -117,62 +243,96 @@ function nextSlide() {
         }
     }
 
-    // Если есть radio-кнопки и ни одна не выбрана
-    if (selectedOption) {
-        let nextQuestion = selectedOption.getAttribute('data-next-question');
+    // Проверка на наличие чекбоксов, полей для заполнения и кнопки "Расскажу попозже"
+    let hasCheckboxes = currentSlide.querySelectorAll('input[type="checkbox"]').length > 0;
+    let hasInputs = inputs.length > 0;
+    let hasSkipButton = skipButton !== null;
+
+    // Если на слайде есть только чекбоксы
+    if (hasCheckboxes && !hasInputs && !hasSkipButton) {
+        if (selectedOptions.length === 0) {
+            showError('Выберите один из вариантов');
+            return;
+        }
+    }
+
+    // Если на слайде есть чекбоксы и кнопка "Расскажу попозже"
+    if (hasCheckboxes && hasSkipButton && !hasInputs) {
+        if (selectedOptions.length === 0 && !skipButton.clicked) {
+            showError('Выберите один из вариантов');
+            return;
+        }
+    }
+
+    // Если на слайде есть чекбоксы и поля для заполнения
+    if (hasCheckboxes && hasInputs && !hasSkipButton) {
+        if (selectedOptions.length === 0 && !hasInputValues) {
+            showError('Выберите один из вариантов или заполните поле');
+            return;
+        }
+    }
+
+    // Если на слайде есть чекбоксы, поля для заполнения и кнопка "Расскажу попозже"
+    if (hasCheckboxes && hasInputs && hasSkipButton) {
+        if (selectedOptions.length === 0 && !hasInputValues && !skipButton.clicked) {
+            showError('Выберите один из вариантов или заполните поле');
+            return;
+        }
+    }
+
+    // Собираем ответы с текущего слайда
+    let answers = collectAnswers();
+
+    // Если нажата кнопка "Расскажу попозже"
+    if (skipButton && skipButton.clicked) {
+        let question = currentSlide.querySelector('.quiz-question').textContent;
+        recordAnswer(question, [...answers, "Расскажу попозже"]);
+    }
+
+    // Переход к следующему слайду
+    let nextQuestion;
+    if (selectedOptions.length > 0) {
+        nextQuestion = selectedOptions[0].getAttribute('data-next-question');
+    } else if (hasInputValues) {
+        // Если заполнено хотя бы одно поле, переходим на следующий слайд
+        nextQuestion = currentSlide.getAttribute('data-next-question');
+    } else if (skipButton && skipButton.clicked) {
+        // Определяем следующий слайд в зависимости от текущей ветки
+        let currentQuestion = currentSlide.getAttribute('data-question');
+        if (currentQuestion === 'geodesy') {
+            nextQuestion = 'geodesy_details';
+        } else if (currentQuestion === 'geology') {
+            nextQuestion = 'geology_details';
+        } else if (currentQuestion === 'ecology') {
+            nextQuestion = 'ecology_details';
+        } else if (currentQuestion === 'ecology_details') {
+            nextQuestion = 'end';
+        }
+    }
+
+    if (nextQuestion) {
         let nextSlide = document.querySelector(`[data-question="${nextQuestion}"]`);
         if (nextSlide) {
             currentSlide = nextSlide;
             showSlide(currentSlide);
         }
-    } else if (skipButton) {
-        // Если нажата кнопка "Расскажу попозже"
-        let question = currentSlide.getAttribute('data-question');
-        recordAnswer(question, "Расскажу попозже");
-        let nextQuestion;
-
-        // Определяем следующий слайд в зависимости от текущей ветки
-        if (question === 'geodesy') {
-            nextQuestion = 'geodesy_details';
-        } else if (question === 'geology') {
-            nextQuestion = 'geology_details';
-        } else if (question === 'ecology') {
-            nextQuestion = 'ecology_details';
-        } else if (question === 'ecology_details') {
-            nextQuestion = 'end';
-        }
-
-        if (nextQuestion) {
-            let nextSlide = document.querySelector(`[data-question="${nextQuestion}"]`);
-            if (nextSlide) {
-                currentSlide = nextSlide;
-                showSlide(currentSlide);
-            }
-        }
-    } else if (inputs.length > 0 && !hasInputValues && !selectedOption) {
-        // Если есть input-поля, но ни одно не заполнено и radio-кнопка не выбрана
-        showError('Заполните поля');
-    } else if (!selectedOption && !skipButton) {
-        // Если нет выбранной radio-кнопки и нет кнопки "Расскажу попозже"
-        showError('Выберите один из вариантов');
     }
 }
 
 // Обработчик для кнопки "Расскажу попозже"
 document.querySelectorAll('.tell-later').forEach(button => {
     button.addEventListener('click', () => {
-        let question = button.closest('.quiz-item').getAttribute('data-question');
-        recordAnswer(question, "Расскажу попозже"); // Записываем ответ
-        nextSlide(); // Переход к следующему слайду
+        button.clicked = true;
+        nextSlide();
     });
 });
 
 // Обработчик для выбора ответа
-document.querySelectorAll('input[name="option"]').forEach(input => {
+document.querySelectorAll('input[type="checkbox"]').forEach(input => {
     input.addEventListener('change', () => {
-        let question = input.closest('.quiz-item').getAttribute('data-question');
-        let answer = input.value;
-        recordAnswer(question, answer); // Записываем ответ
+        let question = input.closest('.quiz-item').querySelector('.quiz-question').textContent;
+        let answer = input.nextElementSibling.textContent;
+        recordAnswer(question, [answer]);
         nextButton.disabled = false; // Разблокируем кнопку "Далее"
     });
 });
@@ -197,8 +357,39 @@ document.querySelector('.quiz-item[data-question="end"] .btn-transparent').addEv
     sendData(userAnswers);
 });
 
+// Функция для очистки полей формы
+function clearForm() {
+    let inputs = document.querySelectorAll('.quiz-input');
+    inputs.forEach(input => {
+        input.value = ''; // Очищаем каждое поле
+    });
+
+    // Очищаем чекбоксы
+    let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    // Очищаем объект с ответами
+    userAnswers = {};
+
+    // Возвращаем пользователя на первый слайд
+    let firstSlide = document.querySelector('.quiz-item[data-question="main"]');
+    if (firstSlide) {
+        currentSlide = firstSlide;
+        showSlide(currentSlide);
+    }
+}
+
 // Функция для отправки данных на сервер
 function sendData(data) {
+    // Преобразуем массивы ответов в строки
+    for (let question in data) {
+        if (Array.isArray(data[question])) {
+            data[question] = formatAnswers(data[question]);
+        }
+    }
+
     fetch('../../send_email.php', {
         method: 'POST',
         headers: {
@@ -206,13 +397,15 @@ function sendData(data) {
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.text())
-    .then(result => {
-        alert(result); // Показываем результат отправки
-    })
-    .catch(error => {
-        console.error('Ошибка:', error);
-    });
+        .then(response => response.text())
+        .then(result => {
+            alert(result); // Показываем результат отправки
+            clearForm(); // Очищаем форму после успешной отправки
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            alert('Произошла ошибка при отправке данных. Пожалуйста, попробуйте ещё раз.');
+        });
 }
 
 // Инициализация первого слайда
