@@ -112,6 +112,7 @@ function showError(message) {
     quizChoice.appendChild(errorMessage);
 }
 
+
 // Функция для форматирования номера телефона
 function formatPhoneNumber(input) {
     let value = input.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
