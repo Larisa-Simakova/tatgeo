@@ -16,18 +16,12 @@ function formatAnswers(answers) {
 
 // Функция для записи ответа
 function recordAnswer(question, answer) {
-    // Очищаем массив ответов для текущего вопроса
     userAnswers[question] = [];
-
-    // Если ответ — массив, добавляем его элементы
     if (Array.isArray(answer)) {
         userAnswers[question].push(...answer);
     } else {
-        // Если ответ — строка, добавляем её
         userAnswers[question].push(answer);
     }
-
-    // Убираем дубликаты в массиве ответов
     userAnswers[question] = [...new Set(userAnswers[question])];
 }
 
@@ -65,14 +59,12 @@ document.querySelectorAll('.quiz-item').forEach(slide => {
 
 // Навешиваем обработчики на чекбоксы и поля ввода
 document.querySelectorAll('.quiz-item').forEach(slide => {
-    // Обработчик для чекбоксов
     slide.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', () => {
             updateNextButtonState();
         });
     });
 
-    // Обработчик для полей ввода
     slide.querySelectorAll('.quiz-input').forEach(input => {
         input.addEventListener('input', () => {
             updateNextButtonState();
@@ -87,14 +79,11 @@ function showSlide(slide) {
     });
     slide.classList.add('active');
 
-    // Скрываем кнопку "Далее" на последнем слайде
     if (slide.getAttribute('data-question') === 'end') {
         nextButton.classList.add('no-show');
     } else {
         nextButton.classList.remove('no-show');
     }
-
-    // Обновляем состояние кнопки "Далее" при показе слайда
     updateNextButtonState();
 }
 
@@ -107,7 +96,7 @@ function showError(message) {
     let quizChoice = currentSlide.querySelector('.quiz-choice');
     let existingError = quizChoice.querySelector('.error-message');
     if (existingError) {
-        existingError.remove(); // Удаляем старое сообщение об ошибке
+        existingError.remove();
     }
     quizChoice.appendChild(errorMessage);
 }
@@ -115,18 +104,16 @@ function showError(message) {
 
 // Функция для форматирования номера телефона
 function formatPhoneNumber(input) {
-    let value = input.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
+    let value = input.value.replace(/\D/g, '');
 
-    // Если номер начинается с 7 или 8, заменяем на +7
     if (value.startsWith('7') || value.startsWith('8')) {
         value = '+7' + value.slice(1);
     } else if (!value.startsWith('+7')) {
-        value = '+7' + value; // Добавляем +7, если его нет
+        value = '+7' + value;
     }
 
-    // Форматируем оставшуюся часть номера
     let formattedValue = '+7';
-    let digits = value.slice(2); // Убираем +7 из начала
+    let digits = value.slice(2);
 
     if (digits.length > 0) {
         formattedValue += ' (' + digits.slice(0, 3);
@@ -150,7 +137,6 @@ document.querySelectorAll('input[type="tel"]').forEach(input => {
         formatPhoneNumber(input);
     });
 
-    // Устанавливаем начальное значение +7, если поле пустое
     if (!input.value.trim()) {
         input.value = '+7';
     }
@@ -162,31 +148,27 @@ function validateFinalSlide() {
     let phoneInput = currentSlide.querySelector('input[type="tel"]');
     let emailInput = currentSlide.querySelector('input[type="email"]');
 
-    // Проверка на пустые поля
     if (!nameInput.value.trim() || !phoneInput.value.trim() || !emailInput.value.trim()) {
         showError('Все поля обязательны для заполнения');
         return false;
     }
 
-    // Проверка, что имя состоит только из букв и пробелов
     if (!/^[A-Za-zА-Яа-я\s]+$/.test(nameInput.value.trim())) {
         showError('Имя должно содержать только буквы');
         return false;
     }
 
-    // Простая валидация email
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
         showError('Введите корректный email');
         return false;
     }
 
-    // Проверка, что номер телефона содержит минимум 10 цифр
     if (phoneInput.value.replace(/\D/g, '').length < 10) {
         showError('Введите корректный номер телефона');
         return false;
     }
 
-    return true; // Валидация прошла успешно
+    return true;
 }
 
 // Функция для сбора ответов с текущего слайда
@@ -196,27 +178,22 @@ function collectAnswers() {
     let inputs = currentSlide.querySelectorAll('.quiz-input');
     let answers = [];
 
-    // Если на слайде можно выбрать только один чекбокс (например, первый вопрос)
     if (currentSlide.getAttribute('data-question') === 'main') {
-        // Выбираем только первый выбранный чекбокс
         if (selectedOptions.length > 0) {
             answers.push(selectedOptions[0].nextElementSibling.textContent);
         }
     } else {
-        // Для остальных слайдов собираем все выбранные чекбоксы
         selectedOptions.forEach(option => {
             answers.push(option.nextElementSibling.textContent);
         });
     }
 
-    // Собираем заполненные поля
     inputs.forEach(input => {
         if (input.value.trim() !== '') {
             answers.push(`${input.placeholder} - ${input.value}`);
         }
     });
 
-    // Если есть ответы, записываем их
     if (answers.length > 0) {
         recordAnswer(question, answers);
     }
@@ -231,20 +208,17 @@ function nextSlide() {
     let inputs = currentSlide.querySelectorAll('.quiz-input');
     let hasInputValues = Array.from(inputs).some(input => input.value.trim() !== '');
 
-    // Очистка предыдущих сообщений об ошибках
     let existingError = currentSlide.querySelector('.error-message');
     if (existingError) {
         existingError.remove();
     }
 
-    // Если это последний слайд, проверяем валидацию
     if (currentSlide.getAttribute('data-question') === 'end') {
         if (!validateFinalSlide()) {
-            return; // Останавливаем переход, если валидация не прошла
+            return;
         }
     }
 
-    // Проверка на наличие чекбоксов, полей для заполнения и кнопки "Расскажу попозже"
     let hasCheckboxes = currentSlide.querySelectorAll('input[type="checkbox"]').length > 0;
     let hasInputs = inputs.length > 0;
     let hasSkipButton = skipButton !== null;
@@ -281,7 +255,6 @@ function nextSlide() {
         }
     }
 
-    // Собираем ответы с текущего слайда
     let answers = collectAnswers();
 
     // Если нажата кнопка "Расскажу попозже"
@@ -334,7 +307,7 @@ document.querySelectorAll('input[type="checkbox"]').forEach(input => {
         let question = input.closest('.quiz-item').querySelector('.quiz-question').textContent;
         let answer = input.nextElementSibling.textContent;
         recordAnswer(question, [answer]);
-        nextButton.disabled = false; // Разблокируем кнопку "Далее"
+        nextButton.disabled = false;
     });
 });
 
@@ -344,17 +317,14 @@ document.querySelector('.quiz-item[data-question="end"] .btn-transparent').addEv
     let phone = document.querySelector('.quiz-item[data-question="end"] input[type="tel"]').value;
     let email = document.querySelector('.quiz-item[data-question="end"] input[type="email"]').value;
 
-    // Проверяем валидацию перед отправкой
     if (!validateFinalSlide()) {
-        return; // Останавливаем отправку, если валидация не прошла
+        return;
     }
 
-    // Добавляем данные формы в объект ответов
     userAnswers.name = name;
     userAnswers.phone = phone;
     userAnswers.email = email;
 
-    // Отправляем данные на сервер
     sendData(userAnswers);
 });
 
@@ -362,19 +332,16 @@ document.querySelector('.quiz-item[data-question="end"] .btn-transparent').addEv
 function clearForm() {
     let inputs = document.querySelectorAll('.quiz-input');
     inputs.forEach(input => {
-        input.value = ''; // Очищаем каждое поле
+        input.value = '';
     });
 
-    // Очищаем чекбоксы
     let checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach(checkbox => {
         checkbox.checked = false;
     });
 
-    // Очищаем объект с ответами
     userAnswers = {};
 
-    // Возвращаем пользователя на первый слайд
     let firstSlide = document.querySelector('.quiz-item[data-question="main"]');
     if (firstSlide) {
         currentSlide = firstSlide;
@@ -384,7 +351,6 @@ function clearForm() {
 
 // Функция для отправки данных на сервер
 function sendData(data) {
-    // Преобразуем массивы ответов в строки
     for (let question in data) {
         if (Array.isArray(data[question])) {
             data[question] = formatAnswers(data[question]);
@@ -400,8 +366,8 @@ function sendData(data) {
     })
         .then(response => response.text())
         .then(result => {
-            alert(result); // Показываем результат отправки
-            clearForm(); // Очищаем форму после успешной отправки
+            alert(result);
+            clearForm();
         })
         .catch(error => {
             console.error('Ошибка:', error);
@@ -409,7 +375,6 @@ function sendData(data) {
         });
 }
 
-// Инициализация первого слайда
 showSlide(currentSlide);
 
 // Добавляем форматирование номера телефона
