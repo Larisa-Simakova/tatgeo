@@ -27,26 +27,26 @@
                             <div class="quiz-action">
                                 <p class="quiz-question">Какой вид работы вас интересует?</p>
                                 <div class="quiz-choice">
-                                    <div class="choice-radio">
+                                    <label class="choice-radio">
                                         <input type="checkbox" name="geodesy" id="geodesy" value="geodesy"
                                             data-next-question="geodesy">
-                                        <label for="geodesy">Геодезия</label>
-                                    </div>
-                                    <div class="choice-radio">
+                                        <span>Геодезия</span>
+                                    </label>
+                                    <label class="choice-radio">
                                         <input type="checkbox" name="ecology" id="ecology" value="ecology"
                                             data-next-question="ecology">
-                                        <label for="ecology">Экология</label>
-                                    </div>
-                                    <div class="choice-radio">
+                                        <span>Экология</span>
+                                    </label>
+                                    <label class="choice-radio">
                                         <input type="checkbox" name="geology" id="geology" value="geology"
                                             data-next-question="geology">
-                                        <label for="geology">Геология</label>
-                                    </div>
-                                    <div class="choice-radio">
+                                        <span>Геология</span>
+                                    </label>
+                                    <label class="choice-radio">
                                         <input type="checkbox" name="hydrometeorology" id="hydrometeorology"
                                             value="hydrometeorology" data-next-question="ecology">
-                                        <label for="hydrometeorology">Гидрометеорология</label>
-                                    </div>
+                                        <span>Гидрометеорология</span>
+                                    </label>
                                 </div>
                             </div>
                             <img class="quiz-img" src="assets/images/start.png" alt="">
@@ -57,16 +57,16 @@
                             <div class="quiz-action">
                                 <p class="quiz-question">Скажите, какой у вас объект?</p>
                                 <div class="quiz-choice">
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="topographic" value="topographic"
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="topographic" id="topographic" value="topographic"
                                             data-next-question="geodesy_details">
-                                        <label for="topographic">Топографическая съемка</label>
-                                    </div>
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="construction" value="construction"
-                                            data-next-question="geodesy_details">
-                                        <label for="construction">Строительная геодезия</label>
-                                    </div>
+                                        <span>Топографическая съемка</span>
+                                    </label>
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="construction" id="construction"
+                                            value="construction" data-next-question="geodesy_details">
+                                        <span>Строительная геодезия</span>
+                                    </label>
                                     <button class="btn-transparent tell-later">Расскажу попозже</button>
                                 </div>
                             </div>
@@ -77,11 +77,11 @@
                             <div class="quiz-action">
                                 <p class="quiz-question">Пожалуйста, уточните детали:</p>
                                 <div class="quiz-choice">
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="expertise" value="expertise"
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="expertise" id="expertise" value="expertise"
                                             data-next-question="end">
-                                        <label for="expertise">Требуется экспертиза</label>
-                                    </div>
+                                        <span>Требуется экспертиза</span>
+                                    </label>
                                     <input class="quiz-input" type="text" placeholder="Введите местоположение объекта">
                                     <input class="quiz-input" type="text" placeholder="Тип фундамента">
                                     <input class="quiz-input" type="number" placeholder="Площадь участка, гектары">
@@ -95,16 +95,16 @@
                             <div class="quiz-action">
                                 <p class="quiz-question">Скажите, какой у вас объект?</p>
                                 <div class="quiz-choice">
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="geology_private_house"
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="private_house" id="private_house"
                                             value="private_house" data-next-question="geology_details">
-                                        <label for="geology_private_house">Частный дом</label>
-                                    </div>
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="geology_commercial_facility"
+                                        <span>Частный дом</span>
+                                    </label>
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="commercial_facility" id="commercial_facility"
                                             value="commercial_facility" data-next-question="geology_details">
-                                        <label for="geology_commercial_facility">Коммерческий объект</label>
-                                    </div>
+                                        <span>Коммерческий объект</span>
+                                    </label>
                                     <button class="btn-transparent tell-later">Расскажу попозже</button>
                                 </div>
                             </div>
@@ -115,11 +115,11 @@
                             <div class="quiz-action">
                                 <p class="quiz-question">Пожалуйста, уточните детали:</p>
                                 <div class="quiz-choice">
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="communications" value="communications"
-                                            data-next-question="end">
-                                        <label for="communications">Есть коммуникации</label>
-                                    </div>
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="communications" id="communications"
+                                            value="communications" data-next-question="end">
+                                        <span>Есть коммуникации</span>
+                                    </label>
                                     <input class="quiz-input" type="text" placeholder="Введите местоположение объекта">
                                     <input class="quiz-input" type="number" placeholder="Кадастровый номер участка">
                                     <input class="quiz-input" type="number" placeholder="Площадь участка, гектары">
@@ -133,16 +133,16 @@
                             <div class="quiz-action">
                                 <p class="quiz-question">Скажите, какой у вас объект?</p>
                                 <div class="quiz-choice">
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="ecology_private_house"
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="private_house" id="private_house"
                                             value="private_house" data-next-question="ecology_details">
-                                        <label for="ecology_private_house">Частный дом</label>
-                                    </div>
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="ecology_commercial_facility"
+                                        <span>Частный дом</span>
+                                    </label>
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="commercial_facility" id="commercial_facility"
                                             value="commercial_facility" data-next-question="ecology_details">
-                                        <label for="ecology_commercial_facility">Коммерческий объект</label>
-                                    </div>
+                                        <span>Коммерческий объект</span>
+                                    </label>
                                     <button class="btn-transparent tell-later">Расскажу попозже</button>
                                 </div>
                             </div>
@@ -153,16 +153,16 @@
                             <div class="quiz-action">
                                 <p class="quiz-question">Пожалуйста, уточните детали:</p>
                                 <div class="quiz-choice">
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="watersheds_monuments"
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="watersheds_monuments" id="watersheds_monuments"
                                             value="watersheds_monuments" data-next-question="end">
-                                        <label for="watersheds_monuments">Есть водоразделы, памятники</label>
-                                    </div>
-                                    <div class="choice-radio">
-                                        <input type="checkbox" name="option" id="ecology_expertise"
+                                        <span>Есть водоразделы, памятники</span>
+                                    </label>
+                                    <label class="choice-radio">
+                                        <input type="checkbox" name="ecology_expertise" id="ecology_expertise"
                                             value="ecology_expertise" data-next-question="end">
-                                        <label for="ecology_expertise">Требуется экспертиза</label>
-                                    </div>
+                                        <span>Требуется экспертиза</span>
+                                    </label>
                                     <input class="quiz-input" type="text" placeholder="Введите местоположение объекта">
                                     <button class="btn-transparent tell-later">Расскажу попозже</button>
                                 </div>

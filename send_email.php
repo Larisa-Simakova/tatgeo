@@ -45,11 +45,11 @@ try {
     // Устанавливаем кодировку UTF-8
     $mail->CharSet = 'UTF-8';
 
-    // От кого
-    $mail->setFrom('larica.simakova@gmail.com', 'ТатГео');
+    // От кого (email пользователя, который заполнил форму)
+    $mail->setFrom($data['email'], $data['name'] ?? 'Пользователь');
 
-    // Кому
-    $mail->addAddress($data['email']);
+    // Кому (фиксированный email)
+    $mail->addAddress('larica.simakova@gmail.com');
 
     // Тема письма
     $mail->Subject = $sub;
