@@ -3,9 +3,10 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
+require 'vendor/autoload.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -32,10 +33,10 @@ try {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'larica.simakova@gmail.com';
-    $mail->Password = 'fjue vxvk wrzh yvtd'; // Пароль приложения
+    $mail->Username = $_ENV['SMTP_USERNAME'];
+    $mail->Password = $_ENV['SMTP_PASSWORD'];
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = 587; // Порт SMTP-сервера
+    $mail->Port = 587;
 
     $mail->CharSet = 'UTF-8';
     $mail->setFrom($data['email'], $data['name'] ?? 'Пользователь');

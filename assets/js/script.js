@@ -200,7 +200,6 @@ function collectAnswers() {
 
     return answers;
 }
-
 // Функция для перехода к следующему слайду
 function nextSlide() {
     let selectedOptions = Array.from(currentSlide.querySelectorAll('input[type="checkbox"]:checked'));
@@ -265,22 +264,30 @@ function nextSlide() {
 
     // Переход к следующему слайду
     let nextQuestion;
-    if (selectedOptions.length > 0) {
-        nextQuestion = selectedOptions[0].getAttribute('data-next-question');
-    } else if (hasInputValues) {
-        // Если заполнено хотя бы одно поле, переходим на следующий слайд
-        nextQuestion = currentSlide.getAttribute('data-next-question');
-    } else if (skipButton && skipButton.clicked) {
-        // Определяем следующий слайд в зависимости от текущей ветки
-        let currentQuestion = currentSlide.getAttribute('data-question');
-        if (currentQuestion === 'geodesy') {
-            nextQuestion = 'geodesy_details';
-        } else if (currentQuestion === 'geology') {
-            nextQuestion = 'geology_details';
-        } else if (currentQuestion === 'ecology') {
-            nextQuestion = 'ecology_details';
-        } else if (currentQuestion === 'ecology_details') {
+    if (currentSlide.getAttribute('data-question') === 'geology') {
+        if (selectedOptions.length > 0) {
+            nextQuestion = selectedOptions[0].getAttribute('data-next-question');
+        } else if (skipButton && skipButton.clicked) {
             nextQuestion = 'end';
+        }
+    } else {
+        if (selectedOptions.length > 0) {
+            nextQuestion = selectedOptions[0].getAttribute('data-next-question');
+        } else if (hasInputValues) {
+            // Если заполнено хотя бы одно поле, переходим на следующий слайд
+            nextQuestion = currentSlide.getAttribute('data-next-question');
+        } else if (skipButton && skipButton.clicked) {
+            // Определяем следующий слайд в зависимости от текущей ветки
+            let currentQuestion = currentSlide.getAttribute('data-question');
+            if (currentQuestion === 'geodesy') {
+                nextQuestion = 'geodesy_details';
+            } else if (currentQuestion === 'geology') {
+                nextQuestion = 'geology_details';
+            } else if (currentQuestion === 'ecology') {
+                nextQuestion = 'ecology_details';
+            } else if (currentQuestion === 'ecology_details') {
+                nextQuestion = 'end';
+            }
         }
     }
 
@@ -292,7 +299,6 @@ function nextSlide() {
         }
     }
 }
-
 // Обработчик для кнопки "Расскажу попозже"
 document.querySelectorAll('.tell-later').forEach(button => {
     button.addEventListener('click', () => {

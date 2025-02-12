@@ -97,32 +97,45 @@
                                 <div class="quiz-choice">
                                     <label class="choice-radio">
                                         <input type="checkbox" name="private_house" id="private_house"
-                                            value="private_house" data-next-question="geology_details">
+                                            value="private_house" data-next-question="geology_private_house">
                                         <span>Частный дом</span>
                                     </label>
                                     <label class="choice-radio">
                                         <input type="checkbox" name="commercial_facility" id="commercial_facility"
-                                            value="commercial_facility" data-next-question="geology_details">
+                                            value="commercial_facility"
+                                            data-next-question="geology_commercial_facility">
                                         <span>Коммерческий объект</span>
                                     </label>
-                                    <button class="btn-transparent tell-later">Расскажу попозже</button>
+                                    <button class="btn-transparent tell-later"  data-next-question="end">Расскажу попозже</button>
                                 </div>
                             </div>
                             <img class="quiz-img" src="assets/images/geology.png" alt="">
                         </div>
 
-                        <div class="quiz-item" data-question="geology_details" data-next-question="end">
+                        <div class="quiz-item" data-question="geology_private_house" data-next-question="end">
                             <div class="quiz-action">
                                 <p class="quiz-question">Пожалуйста, уточните детали:</p>
                                 <div class="quiz-choice">
+                                    <input class="quiz-input" type="text" placeholder="Введите местоположение объекта">
+                                    <input class="quiz-input" type="text" placeholder="Размеры сооружения (ДхШхВ)">
+                                    <button class="btn-transparent tell-later">Расскажу попозже</button>
+                                </div>
+                            </div>
+                            <img class="quiz-img" src="assets/images/geology2.png" alt="">
+                        </div>
+
+                        <div class="quiz-item" data-question="geology_commercial_facility" data-next-question="end">
+                            <div class="quiz-action">
+                                <p class="quiz-question">Пожалуйста, уточните детали:</p>
+                                <div class="quiz-choice">
+                                    <input class="quiz-input" type="text" placeholder="Введите местоположение объекта">
+                                    <input class="quiz-input" type="text" placeholder="Размеры сооружения (ДхШхВ)">
+                                    <input class="quiz-input" type="text" placeholder="Тип фундамента">
                                     <label class="choice-radio">
                                         <input type="checkbox" name="communications" id="communications"
                                             value="communications" data-next-question="end">
-                                        <span>Есть коммуникации</span>
+                                        <span>Для государственной экспертизы</span>
                                     </label>
-                                    <input class="quiz-input" type="text" placeholder="Введите местоположение объекта">
-                                    <input class="quiz-input" type="number" placeholder="Кадастровый номер участка">
-                                    <input class="quiz-input" type="number" placeholder="Площадь участка, гектары">
                                 </div>
                             </div>
                             <img class="quiz-img" src="assets/images/geology2.png" alt="">
